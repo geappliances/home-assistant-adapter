@@ -42,7 +42,15 @@ static void configureMqtt()
 
 static void connectToMqtt()
 {
+  unsigned retries;
+
+  retries = 0;
   while(WiFi.status() != WL_CONNECTED) {
+    if(retries++ > 100) {
+      Serial.println("WiFi connection failed, restarting...");
+      ESP.restart();
+    }
+
     digitalWrite(LED_WIFI, LOW);
     delay(100);
     Serial.print(".");
@@ -52,7 +60,13 @@ static void connectToMqtt()
   if(!mqttClient.connected()) {
     digitalWrite(LED_MQTT, LOW);
 
+    retries = 0;
     while(!mqttClient.connected()) {
+      if(retries++ > 10) {
+        Serial.println("MQTT connection failed, restarting...");
+        ESP.restart();
+      }
+
       Serial.print("Attempting MQTT connection...");
 
       if(mqttClient.connect("", mqttUser, mqttPassword)) {
@@ -60,8 +74,8 @@ static void connectToMqtt()
         digitalWrite(LED_MQTT, HIGH);
       }
       else {
-        Serial.println("failed, rc=" + String(mqttClient.state()) + " will try again in 5 seconds");
-        delay(5000);
+        Serial.println("failed, rc=" + String(mqttClient.state()) + " will try again in 1 second");
+        delay(1000);
       }
     }
 
