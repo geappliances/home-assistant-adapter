@@ -9,6 +9,8 @@ The Home Assistant Adapter consists of a [Xiao ESP32C3](https://wiki.seeedstudio
 - Copy `config/Certificate.h.sample` to `config/Certificate.h` and add your certificate (if any)
 - Copy `config/Config.h.sample` to `config/Config.h` and add your WiFi credentials, MQTT configuration, and your device ID
 
+In-depth instructions can be found in the [Getting Started](doc/getting-started.md) guide.
+
 ## Usage
 ### Build
 Builds the firmware into `.pio/build/xiao_c3/firmware.bin`.
