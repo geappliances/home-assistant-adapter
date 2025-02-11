@@ -12,16 +12,28 @@ static WiFiClient wifiClient;
 static PubSubClient mqttClient(wifiClient);
 static HomeAssistantBridge bridge;
 
+static void connectToWifi()
+{
+  unsigned retries = 0;
+  while(WiFi.status() != WL_CONNECTED) {
+    if(retries++ > 100) {
+      Serial.println("WiFi connection failed, restarting...");
+      ESP.restart();
+    }
+
+    digitalWrite(LED_WIFI, LOW);
+    delay(100);
+    Serial.print(".");
+  }
+}
+
 static void configureWifi()
 {
   Serial.println("\nConnecting to " + String(ssid));
 
   WiFi.begin(ssid, password);
 
-  while(WiFi.status() != WL_CONNECTED) {
-    delay(100);
-    Serial.print(".");
-  }
+  connectToWifi();
 
 #ifdef MQTT_TLS
 #ifdef MQTT_TLS_VERIFY
@@ -42,25 +54,13 @@ static void configureMqtt()
 
 static void connectToMqtt()
 {
-  unsigned retries;
-
-  retries = 0;
-  while(WiFi.status() != WL_CONNECTED) {
-    if(retries++ > 100) {
-      Serial.println("WiFi connection failed, restarting...");
-      ESP.restart();
-    }
-
-    digitalWrite(LED_WIFI, LOW);
-    delay(100);
-    Serial.print(".");
-  }
+  connectToWifi();
   digitalWrite(LED_WIFI, HIGH);
 
   if(!mqttClient.connected()) {
     digitalWrite(LED_MQTT, LOW);
 
-    retries = 0;
+    unsigned retries = 0;
     while(!mqttClient.connected()) {
       if(retries++ > 10) {
         Serial.println("MQTT connection failed, restarting...");
