@@ -14,6 +14,12 @@ static HomeAssistantBridge bridge;
 
 static void connectToWifi()
 {
+  if(WiFi.status() == WL_CONNECTED) {
+    return;
+  }
+
+  Serial.println("Connecting to WiFi...");
+
   unsigned retries = 0;
   while(WiFi.status() != WL_CONNECTED) {
     if(retries++ > 100) {
@@ -29,7 +35,7 @@ static void connectToWifi()
 
 static void configureWifi()
 {
-  Serial.println("\nConnecting to " + String(ssid));
+  Serial.println("WiFi SSID: " + String(ssid));
 
   WiFi.begin(ssid, password);
 
@@ -86,6 +92,7 @@ static void connectToMqtt()
 void setup()
 {
   Serial.begin(115200);
+  Serial.println();
 
   pinMode(LED_HEARTBEAT, OUTPUT);
   pinMode(LED_WIFI, OUTPUT);
