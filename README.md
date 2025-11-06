@@ -1,8 +1,8 @@
 # home-assistant-adapter
-Example firmware for the ESP32C3-based Home Assistant Adapter.
+Example firmware for the ESP32C3-based Home Assistant adapter [available from FirstBuild](https://firstbuild.com/inventions/home-assistant-adapter/).
 
 ## Hardware
-The Home Assistant Adapter consists of a [Xiao ESP32C3](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/) and [carrier board](doc/schematic-v1.0.pdf) that breaks out the serial interface of the Xiao to an RJ45 jack.
+The Home Assistant adapter consists of a [Xiao ESP32C3](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/) and [carrier board](doc/schematic-v1.0.pdf) that breaks out the serial interface of the Xiao to an RJ45 jack.
 
 ## Setup
 - Install [PlatformIO](https://platformio.org/)
