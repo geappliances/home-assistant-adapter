@@ -87,6 +87,9 @@ static void connectToMqtt()
 
     bridge.notifyMqttDisconnected();
   }
+  else {
+    mqttClient.publish("geappliances/connected", "true");
+  }
 }
 
 void setup()
